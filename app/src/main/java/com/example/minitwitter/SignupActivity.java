@@ -9,46 +9,43 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MaterialButton btnLogin;
-    private TextView txtGoToSignUp;
+    private MaterialButton btnSignUp;
+    private TextView txtBackToLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signup);
 
         initComponents();
         setListeners();
     }
 
     private void initComponents() {
-        btnLogin = findViewById(R.id.btnLogin);
-        txtGoToSignUp = findViewById(R.id.txtSignLoginToSignUp);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        txtBackToLogin = findViewById(R.id.txtSignUpToLogin);
     }
 
-    private void setListeners(){
-        btnLogin.setOnClickListener(this);
-
-        txtGoToSignUp.setOnClickListener(this);
+    private void setListeners() {
+        btnSignUp.setOnClickListener(this);
+        txtBackToLogin.setOnClickListener(this);
     }
 
-    private void goToSignUp() {
-        startActivity(new Intent(this, SignupActivity.class));
+    private void goToLogin(){
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btnLogin:
+            case R.id.btnSignUp:
                 break;
-            case R.id.txtSignLoginToSignUp:
-                goToSignUp();
+            case R.id.txtSignUpToLogin:
+                goToLogin();
                 break;
         }
     }
-
-
 }

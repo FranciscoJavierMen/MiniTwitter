@@ -11,7 +11,7 @@
         android:id="@+id/imageView"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/edtEmailLogin"
+        app:layout_constraintBottom_toTopOf="@+id/edtNameSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,14 +19,14 @@
         app:srcCompat="@drawable/ic_withe_logo" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edtEmailLogin"
+        android:id="@+id/edtNameSignUp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        app:boxStrokeColor="@android:color/white"
-        app:hintTextColor="@android:color/white"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/edtPasswordLogin"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/edtEmailSignUp"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -41,19 +41,40 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edtPasswordLogin"
+        android:id="@+id/edtEmailSignUp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         app:boxStrokeColor="@android:color/white"
         app:hintTextColor="@android:color/white"
-        app:helperTextTextColor="@android:color/white"
         android:layout_height="wrap_content"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
-        app:layout_constraintEnd_toEndOf="@+id/edtEmailLogin"
+        app:layout_constraintBottom_toTopOf="@+id/edtPasswordSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/edtNameSignUp"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/edtEmailLogin"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmailLogin">
+        app:layout_constraintStart_toStartOf="@+id/edtNameSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/edtNameSignUp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/text_email_hint"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edtPasswordSignUp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/edtEmailSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/edtEmailSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -64,30 +85,30 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
-        android:layout_width="0dp"
+        android:id="@+id/btnSignUp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/text_access_login"
+        android:text="@string/text_signup"
+        android:textAllCaps="false"
         android:textColor="@color/blueColor"
         android:textStyle="bold"
-        android:textAllCaps="false"
         app:backgroundTint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/txtSignLoginToSignUp"
-        app:layout_constraintEnd_toEndOf="@+id/edtPasswordLogin"
+        app:layout_constraintBottom_toTopOf="@+id/txtSignUpToLogin"
+        app:layout_constraintEnd_toEndOf="@+id/edtPasswordSignUp"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/edtPasswordLogin"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasswordLogin"
+        app:layout_constraintStart_toStartOf="@+id/edtPasswordSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp"
         app:rippleColor="@color/blueColor" />
 
     <TextView
-        android:id="@+id/txtSignLoginToSignUp"
-        android:layout_width="0dp"
+        android:id="@+id/txtSignUpToLogin"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/text_go_to_login"
+        android:text="@string/text_new_account"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignUp"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintStart_toStartOf="@+id/btnSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
