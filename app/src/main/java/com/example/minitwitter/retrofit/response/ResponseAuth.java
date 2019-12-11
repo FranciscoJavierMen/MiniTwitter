@@ -1,9 +1,9 @@
-package com.example.minitwitter;
+package com.example.minitwitter.retrofit.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RequestSignup {
+public class ResponseAuth {
 
     @SerializedName("token")
     @Expose
@@ -14,9 +14,6 @@ public class RequestSignup {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("role")
-    @Expose
-    private String role;
     @SerializedName("photoUrl")
     @Expose
     private String photoUrl;
@@ -27,25 +24,23 @@ public class RequestSignup {
     @Expose
     private Boolean active;
 
-    public RequestSignup() {
+    public ResponseAuth() {
     }
 
     /**
      *
      * @param photoUrl
-     * @param role
      * @param created
      * @param active
      * @param email
      * @param token
      * @param username
      */
-    public RequestSignup(String token, String username, String email, String role, String photoUrl, String created, Boolean active) {
+    public ResponseAuth(String token, String username, String email, String photoUrl, String created, Boolean active) {
         super();
         this.token = token;
         this.username = username;
         this.email = email;
-        this.role = role;
         this.photoUrl = photoUrl;
         this.created = created;
         this.active = active;
@@ -73,14 +68,6 @@ public class RequestSignup {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getPhotoUrl() {
