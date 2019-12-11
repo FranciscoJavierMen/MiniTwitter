@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent);
                         finish();
                     } else {
-
+                        Toast.makeText(MainActivity.this, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show();
                     }
                 }
 

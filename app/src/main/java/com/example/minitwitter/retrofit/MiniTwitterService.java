@@ -13,6 +13,6 @@ public interface MiniTwitterService {
     @POST("auth/login")
     Call<ResponseAuth> doLogin(@Body RequestLogin requestLogin);
 
-    @POST("auth/login")
+    @POST("auth/signup")
     Call<ResponseAuth> doSignup(@Body RequestSignup requestSignup);
 }
