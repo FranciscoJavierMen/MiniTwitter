@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#0F77D1</color>
-    <color name="colorAccent">@color/blueColorDark</color>
+    <color name="colorPrimary">#0F77D1</color>
+    <color name="colorPrimaryDark">@color/blueColorDark</color>
+    <color name="colorAccent">@android:color/white</color>
 
     <color name="blueColor">#0F7EDD</color>
     <color name="blueColorDark">#0C64AF</color>
