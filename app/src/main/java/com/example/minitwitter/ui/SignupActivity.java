@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.minitwitter.R;
+import com.example.minitwitter.common.Constantes;
+import com.example.minitwitter.common.SharedPreferencesManager;
 import com.example.minitwitter.retrofit.MiniTwitterClient;
 import com.example.minitwitter.retrofit.MiniTwitterService;
 import com.example.minitwitter.retrofit.request.RequestSignup;
@@ -82,6 +84,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
                     if (response.isSuccessful() && response.body() != null){
+
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_TOKEN, response.body().getToken());
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_USERNAME, response.body().getUsername());
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_EMAIL, response.body().getEmail());
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_PHOTO_URL, response.body().getPhotoUrl());
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_CREATED, response.body().getCreated());
+                        SharedPreferencesManager.setSomeBooleanValue(Constantes.PREF_ACTIVE, response.body().getActive());
+
                         Intent intent = new Intent(SignupActivity.this, DashboarActivity.class);
                         startActivity(intent);
                         Toast.makeText(SignupActivity.this, "Registro realizado econ éxito. Bienvenido.", Toast.LENGTH_SHORT).show();
