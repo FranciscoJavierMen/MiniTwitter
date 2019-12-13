@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.minitwitter.data.TweetViewModel;
 import com.example.minitwitter.retrofit.AuthTweeterService;
 import com.example.minitwitter.retrofit.AuthTwitterClient;
 import com.example.minitwitter.retrofit.response.Tweet;
@@ -29,12 +32,16 @@ public class TweetFragment extends Fragment {
     private RecyclerView recyclerTweets;
     private MyTweetRecyclerViewAdapter adapter;
     private List<Tweet> tweetList;
+    private TweetViewModel tweetViewModel;
 
     public TweetFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        tweetViewModel = ViewModelProviders.of(getActivity())
+                .get(TweetViewModel.class);
     }
 
     @Override
@@ -52,6 +59,12 @@ public class TweetFragment extends Fragment {
                 recyclerTweets.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
+            adapter = new MyTweetRecyclerViewAdapter(
+                    getActivity(),
+                    tweetList
+            );
+            recyclerTweets.setAdapter(adapter);
+
            loadTweetData();
         }
         return view;
@@ -59,13 +72,12 @@ public class TweetFragment extends Fragment {
 
 
     private void loadTweetData() {
-        adapter = new MyTweetRecyclerViewAdapter(
-                getActivity(),
-                tweetList
-        );
-        recyclerTweets.setAdapter(adapter);
-
+        tweetViewModel.getTweets().observe(getActivity(), new Observer<List<Tweet>>() {
+            @Override
+            public void onChanged(List<Tweet> tweets) {
+                tweetList = tweets;
+                adapter.setData(tweets);
+            }
+        });
     }
-
-
 }

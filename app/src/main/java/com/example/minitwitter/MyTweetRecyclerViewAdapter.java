@@ -39,38 +39,49 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
         return new ViewHolder(view);
     }
 
+    public void setData(List<Tweet> lista){
+        this.tweetList = lista;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = tweetList.get(position);
+        if (tweetList != null) {
+            holder.mItem = tweetList.get(position);
 
-        holder.txtUsername.setText(holder.mItem.getUser().getUsername());
-        holder.txtMessage.setText(holder.mItem.getMensaje());
-        holder.txtLikesCount.setText(String.valueOf(holder.mItem.getLikes().size()));
+            holder.txtUsername.setText(holder.mItem.getUser().getUsername());
+            holder.txtMessage.setText(holder.mItem.getMensaje());
+            holder.txtLikesCount.setText(String.valueOf(holder.mItem.getLikes().size()));
 
-        String photo = holder.mItem.getUser().getPhotoUrl();
-        if (!holder.mItem.getUser().getPhotoUrl().equals("")){
-            Glide.with(context)
-                    .load("https://www.minitwitter.com/apiv1/uploads/photos/" + photo)
-                    .into(holder.imgAvatar);
-        }
-
-
-        for (Like like: holder.mItem.getLikes()){
-            if (like.getUsername().equals(userName)){
+            String photo = holder.mItem.getUser().getPhotoUrl();
+            if (!holder.mItem.getUser().getPhotoUrl().equals("")) {
                 Glide.with(context)
-                        .load(R.drawable.ic_like_pink)
-                        .into(holder.imgLike);
+                        .load("https://www.minitwitter.com/apiv1/uploads/photos/" + photo)
+                        .into(holder.imgAvatar);
+            }
 
-                holder.txtLikesCount.setTextColor(context.getResources().getColor(R.color.colorPink));
-                holder.txtLikesCount.setTypeface(null, Typeface.BOLD);
-                break;
+
+            for (Like like : holder.mItem.getLikes()) {
+                if (like.getUsername().equals(userName)) {
+                    Glide.with(context)
+                            .load(R.drawable.ic_like_pink)
+                            .into(holder.imgLike);
+
+                    holder.txtLikesCount.setTextColor(context.getResources().getColor(R.color.colorPink));
+                    holder.txtLikesCount.setTypeface(null, Typeface.BOLD);
+                    break;
+                }
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        return tweetList.size();
+        if (tweetList != null){
+            return tweetList.size();
+        }
+        return 0;
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -28,7 +28,7 @@ public class TweetRepository {
         allTweets = getAllTweets();
     }
 
-    private LiveData<List<Tweet>> getAllTweets(){
+    public LiveData<List<Tweet>> getAllTweets(){
         final MutableLiveData<List<Tweet>> data = new MutableLiveData<>();
 
         Call<List<Tweet>> call = service.getAllTweets();
