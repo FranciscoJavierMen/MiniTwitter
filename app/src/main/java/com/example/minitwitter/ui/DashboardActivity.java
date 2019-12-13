@@ -1,6 +1,7 @@
 package com.example.minitwitter.ui;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.minitwitter.R;
@@ -8,6 +9,7 @@ import com.example.minitwitter.TweetFragment;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 public class DashboardActivity extends AppCompatActivity {
 
     private TweetFragment tweetFragment;
+    private ExtendedFloatingActionButton fabCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboar);
 
         initFragments();
+        setListeners();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -41,8 +45,16 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void initFragments() {
         tweetFragment = new TweetFragment();
+        fabCreate = findViewById(R.id.fabCreateTweet);
 
         setFragment(tweetFragment);
+    }
+
+    private void setListeners(){
+        fabCreate.setOnClickListener(v -> {
+            CreateTweetDialogFragment dialogFragment = new CreateTweetDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "CreateTweetDialogFragment");
+        });
     }
 
     private void setFragment(Fragment fragment) {
