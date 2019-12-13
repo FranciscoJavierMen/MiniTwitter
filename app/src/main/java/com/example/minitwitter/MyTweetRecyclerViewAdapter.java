@@ -45,7 +45,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
 
         holder.txtUsername.setText(holder.mItem.getUser().getUsername());
         holder.txtMessage.setText(holder.mItem.getMensaje());
-        holder.txtLikesCount.setText(holder.mItem.getLikes().size());
+        holder.txtLikesCount.setText(String.valueOf(holder.mItem.getLikes().size()));
 
         String photo = holder.mItem.getUser().getPhotoUrl();
         if (!holder.mItem.getUser().getPhotoUrl().equals("")){

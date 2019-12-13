@@ -16,7 +16,6 @@ import com.example.minitwitter.retrofit.MiniTwitterClient;
 import com.example.minitwitter.retrofit.MiniTwitterService;
 import com.example.minitwitter.retrofit.request.RequestSignup;
 import com.example.minitwitter.retrofit.response.ResponseAuth;
-import com.example.minitwitter.ui.MainActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -92,7 +91,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         SharedPreferencesManager.setSomeStringValue(Constantes.PREF_CREATED, response.body().getCreated());
                         SharedPreferencesManager.setSomeBooleanValue(Constantes.PREF_ACTIVE, response.body().getActive());
 
-                        Intent intent = new Intent(SignupActivity.this, DashboarActivity.class);
+                        Intent intent = new Intent(SignupActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         Toast.makeText(SignupActivity.this, "Registro realizado econ éxito. Bienvenido.", Toast.LENGTH_SHORT).show();
                         finish();

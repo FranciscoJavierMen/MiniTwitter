@@ -4,22 +4,29 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.minitwitter.R;
+import com.example.minitwitter.TweetFragment;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class DashboarActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity {
+
+    private TweetFragment tweetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboar);
+
+        initFragments();
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -31,5 +38,19 @@ public class DashboarActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);*/
 
     }
+
+    private void initFragments() {
+        tweetFragment = new TweetFragment();
+
+        setFragment(tweetFragment);
+    }
+
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.container, fragment)
+                .commit();
+    }
+
 
 }
