@@ -29,8 +29,6 @@ public class TweetFragment extends Fragment {
     private RecyclerView recyclerTweets;
     private MyTweetRecyclerViewAdapter adapter;
     private List<Tweet> tweetList;
-    private AuthTweeterService service;
-    private AuthTwitterClient client;
 
     public TweetFragment() { }
 
@@ -54,39 +52,18 @@ public class TweetFragment extends Fragment {
                 recyclerTweets.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            retrofitInit();
            loadTweetData();
         }
         return view;
     }
 
-    private void retrofitInit() {
-        client = AuthTwitterClient.getInstance();
-        service = client.getAuthTwitterService();
-    }
 
     private void loadTweetData() {
-        Call<List<Tweet>> call = service.getAllTweets();
-        call.enqueue(new Callback<List<Tweet>>() {
-            @Override
-            public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    tweetList = response.body();
-                    adapter = new MyTweetRecyclerViewAdapter(
-                            getActivity(),
-                            tweetList
-                    );
-                    recyclerTweets.setAdapter(adapter);
-                } else {
-                    Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Tweet>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
-            }
-        });
+        adapter = new MyTweetRecyclerViewAdapter(
+                getActivity(),
+                tweetList
+        );
+        recyclerTweets.setAdapter(adapter);
 
     }
 
