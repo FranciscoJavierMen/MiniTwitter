@@ -26,6 +26,13 @@ public class Tweet {
     public Tweet() {
     }
 
+    public Tweet(Tweet tweet) {
+        this.id = tweet.getId();
+        this.mensaje = tweet.getMensaje();
+        this.user = tweet.getUser();
+        this.likes = tweet.getLikes();
+    }
+
     /**
      *
      * @param id

@@ -31,8 +31,8 @@
     
     <style name="FullScreenDialog" parent="Theme.AppCompat.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="colorAccent">@color/colorPrimary</item>
 
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
