@@ -2,7 +2,6 @@ package com.example.minitwitter.data;
 
 import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.minitwitter.retrofit.AuthTweeterService;

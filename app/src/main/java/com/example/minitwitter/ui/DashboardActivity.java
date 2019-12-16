@@ -1,9 +1,12 @@
 package com.example.minitwitter.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.minitwitter.R;
 import com.example.minitwitter.TweetFragment;
 import com.example.minitwitter.common.Constantes;
@@ -22,6 +25,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private TweetFragment tweetFragment;
     private ExtendedFloatingActionButton fabCreate;
+    private ImageView imgUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,6 @@ public class DashboardActivity extends AppCompatActivity {
         setListeners();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
@@ -41,6 +43,8 @@ public class DashboardActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);*/
 
+        imgUser = findViewById(R.id.imgToolbarPhoto);
+        setUserImage();
     }
 
     private void initFragments() {
@@ -55,6 +59,16 @@ public class DashboardActivity extends AppCompatActivity {
             CreateTweetDialogFragment dialogFragment = new CreateTweetDialogFragment();
             dialogFragment.show(getSupportFragmentManager(), "CreateTweetDialogFragment");
         });
+    }
+
+    private void setUserImage(){
+        String photoUrl = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_PHOTO_URL);
+
+        if (!TextUtils.isEmpty(photoUrl)){
+            Glide.with(this)
+                    .load(Constantes.API_MINITWITTER_FILES_URL.concat(photoUrl))
+                    .into(imgUser);
+        }
     }
 
     private void setFragment(Fragment fragment) {

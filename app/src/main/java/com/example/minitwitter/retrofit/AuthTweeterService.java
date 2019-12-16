@@ -17,6 +17,4 @@ public interface AuthTweeterService {
 
     @POST("tweets/create")
     Call<Tweet> createTweet(@Body RequestCreateTweet request);
-
-
 }
