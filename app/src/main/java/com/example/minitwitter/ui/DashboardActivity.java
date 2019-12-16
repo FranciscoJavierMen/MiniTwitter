@@ -93,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
     private void setFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.container, fragment)
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
