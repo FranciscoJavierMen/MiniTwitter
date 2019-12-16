@@ -1,6 +1,5 @@
 package com.example.minitwitter.data;
 
-import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +11,7 @@ import com.example.minitwitter.retrofit.AuthTwitterClient;
 import com.example.minitwitter.retrofit.request.RequestCreateTweet;
 import com.example.minitwitter.retrofit.response.Like;
 import com.example.minitwitter.retrofit.response.Tweet;
+import com.example.minitwitter.retrofit.response.TweetDeleted;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -143,6 +143,33 @@ public class TweetRepository {
             @Override
             public void onFailure(Call<Tweet> call, Throwable t) {
                 Toast.makeText(getContext(), "Error de red", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void deleteTweet(final int idTweet){
+        Call<TweetDeleted> call = service.deleteTweet(idTweet);
+        call.enqueue(new Callback<TweetDeleted>() {
+            @Override
+            public void onResponse(Call<TweetDeleted> call, Response<TweetDeleted> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    List<Tweet> clonedTweets = new ArrayList<>();
+                    for (int i = 0; i < allTweets.getValue().size(); i ++){
+                        if (allTweets.getValue().get(i).getId() != idTweet){
+                            clonedTweets.add(new Tweet(allTweets.getValue().get(i)));
+                        }
+                    }
+
+                    allTweets.setValue(clonedTweets);
+                    getFavsTweets();
+                } else {
+                    Toast.makeText(getContext(), "Ha ocurrido un prolema inesperado", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TweetDeleted> call, Throwable t) {
+                Toast.makeText(getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
