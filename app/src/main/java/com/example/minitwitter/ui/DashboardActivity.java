@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -22,41 +24,21 @@ public class DashboardActivity extends AppCompatActivity {
     private ExtendedFloatingActionButton fabCreate;
     private ImageView imgUser;
     private BottomNavigationView navigation;
+    private TextView toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboar);
 
+        toolbar = findViewById(R.id.txtTextToolbar);
+        navigation = findViewById(R.id.nav_view);
         initFragments();
         setListeners();
-
-        navigation = findViewById(R.id.nav_view);
 
         imgUser = findViewById(R.id.imgToolbarPhoto);
         setUserImage();
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment = null;
-            switch (item.getItemId()){
-                case R.id.navigation_home:
-                    fragment = TweetFragment.newInstance(Constantes.TWEET_LIST_ALL);
-                    break;
-                case R.id.navigation_twitt_like:
-                    fragment = TweetFragment.newInstance(Constantes.TWEET_LIST_FAVS);
-                    break;
-            }
-
-            if (fragment != null){
-                setFragment(fragment);
-                return true;
-            }
-            return false;
-        }
-    };
 
     private void initFragments() {
         tweetFragment = TweetFragment.newInstance(Constantes.TWEET_LIST_ALL);
@@ -71,7 +53,31 @@ public class DashboardActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "CreateTweetDialogFragment");
         });
 
-        navigation.setOnNavigationItemSelectedListener(mListener);
+        navigation.setOnNavigationItemSelectedListener(item -> {
+            Fragment fragment = null;
+            switch (item.getItemId()){
+                case R.id.navigation_home:
+                    toolbar.setText("Inicio");
+                    fragment = TweetFragment.newInstance(Constantes.TWEET_LIST_ALL);
+                    fabCreate.show();
+                    break;
+                case R.id.navigation_twitt_like:
+                    toolbar.setText("Favoritos");
+                    fragment = TweetFragment.newInstance(Constantes.TWEET_LIST_FAVS);
+                    fabCreate.hide();
+                    break;
+                case R.id.navigation_account:
+                    toolbar.setText("Cuenta");
+                    fabCreate.hide();
+                    break;
+            }
+
+            if (fragment != null){
+                setFragment(fragment);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void setUserImage(){

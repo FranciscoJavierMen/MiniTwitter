@@ -69,7 +69,6 @@ public class TweetFragment extends Fragment {
                 getActivity(),
                 tweetList
         );
-        recyclerTweets.setAdapter(adapter);
 
         if (tweetListType == Constantes.TWEET_LIST_ALL){
             loadTweetData();
@@ -77,10 +76,9 @@ public class TweetFragment extends Fragment {
             loadFavoriteTweetdata();
         }
 
-        return view;
-    }
+        recyclerTweets.setAdapter(adapter);
 
-    private void loadFavoriteTweetdata() {
+        return view;
     }
 
     private void refreshTweets() {
@@ -98,9 +96,23 @@ public class TweetFragment extends Fragment {
         });
     }
 
-    private void loadNewFavoriteTweetdata() {
+    private void loadFavoriteTweetdata() {
+        tweetViewModel.getFavTweets().observe(getActivity(), tweets -> {
+            tweetList = tweets;
+            adapter.setData(tweetList);
+        });
     }
 
+    private void loadNewFavoriteTweetdata() {
+        tweetViewModel.getNewFavTweets().observe(getActivity(), new Observer<List<Tweet>>() {
+            @Override
+            public void onChanged(List<Tweet> tweets) {
+                tweetList = tweets;
+                refreshLayout.setRefreshing(false);
+                adapter.setData(tweets);tweetViewModel.getNewFavTweets().removeObserver(this);
+            }
+        });
+    }
 
     private void loadTweetData() {
         tweetViewModel.getTweets().observe(getActivity(), tweets -> {
