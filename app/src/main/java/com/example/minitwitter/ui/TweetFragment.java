@@ -1,4 +1,4 @@
-package com.example.minitwitter;
+package com.example.minitwitter.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,21 +14,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.example.minitwitter.R;
+import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.TweetViewModel;
-import com.example.minitwitter.retrofit.AuthTweeterService;
-import com.example.minitwitter.retrofit.AuthTwitterClient;
 import com.example.minitwitter.retrofit.response.Tweet;
+import com.example.minitwitter.ui.MyTweetRecyclerViewAdapter;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class TweetFragment extends Fragment {
-    private int mColumnCount = 1;
+    private int tweetListType = 1;
     private RecyclerView recyclerTweets;
     private MyTweetRecyclerViewAdapter adapter;
     private List<Tweet> tweetList;
@@ -37,12 +33,24 @@ public class TweetFragment extends Fragment {
 
     public TweetFragment() { }
 
+    public static TweetFragment newInstance(int tweetListType){
+        TweetFragment fragment = new TweetFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constantes.TWEET_LIST_TYPE, tweetListType);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         tweetViewModel = ViewModelProviders.of(getActivity())
                 .get(TweetViewModel.class);
+
+        if (getArguments() != null){
+            tweetListType = getArguments().getInt(Constantes.TWEET_LIST_TYPE);
+        }
     }
 
     @Override
@@ -55,11 +63,7 @@ public class TweetFragment extends Fragment {
         Context context = view.getContext();
         refreshTweets();
 
-        if (mColumnCount <= 1) {
-            recyclerTweets.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            recyclerTweets.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
+        recyclerTweets.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new MyTweetRecyclerViewAdapter(
                 getActivity(),
@@ -67,14 +71,34 @@ public class TweetFragment extends Fragment {
         );
         recyclerTweets.setAdapter(adapter);
 
-        loadTweetData();
+        if (tweetListType == Constantes.TWEET_LIST_ALL){
+            loadTweetData();
+        } else if (tweetListType == Constantes.TWEET_LIST_FAVS){
+            loadFavoriteTweetdata();
+        }
+
         return view;
+    }
+
+    private void loadFavoriteTweetdata() {
     }
 
     private void refreshTweets() {
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.blueColor),
                 getResources().getColor(R.color.colorPink));
-        refreshLayout.setOnRefreshListener(this::loadNewTweetData);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (tweetListType == Constantes.TWEET_LIST_ALL){
+                    loadNewTweetData();
+                } else if (tweetListType == Constantes.TWEET_LIST_FAVS){
+                    loadNewFavoriteTweetdata();
+                }
+            }
+        });
+    }
+
+    private void loadNewFavoriteTweetdata() {
     }
 
 

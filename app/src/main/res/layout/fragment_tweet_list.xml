@@ -16,6 +16,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".TweetFragment"
+        tools:context=".ui.TweetFragment"
         tools:listitem="@layout/item_tweet" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
