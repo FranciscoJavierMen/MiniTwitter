@@ -64,10 +64,9 @@ public class CreateTweetDialogFragment extends DialogFragment {
 
     private void setUserImage(){
         String photoUrl = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_PHOTO_URL);
-
         if (!TextUtils.isEmpty(photoUrl)){
             Glide.with(getActivity())
-                    .load(Constantes.API_MINITWITTER_FILES_URL.concat(photoUrl))
+                    .load(Constantes.API_MINITWITTER_FILES_URL + photoUrl)
                     .into(imgUser);
         }
     }
