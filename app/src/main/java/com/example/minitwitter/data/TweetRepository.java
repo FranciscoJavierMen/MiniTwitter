@@ -81,4 +81,34 @@ public class TweetRepository {
             }
         });
     }
+
+    public void likeTweet(int idTweet){
+        Call<Tweet> call = service.likeTweet(idTweet);
+
+        call.enqueue(new Callback<Tweet>() {
+            @Override
+            public void onResponse(Call<Tweet> call, Response<Tweet> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    List<Tweet> listaClonada = new ArrayList<>();
+                    //Añadir en primer lugar el nuevo tweet
+                    for (int i = 0; i < allTweets.getValue().size(); i ++){
+                        if (allTweets.getValue().get(i).getId() == idTweet){
+                            listaClonada.add(response.body());
+                        } else {
+                            listaClonada.add(new Tweet(allTweets.getValue().get(i)));
+                        }
+                    }
+
+                    allTweets.setValue(listaClonada);
+                } else {
+                    Toast.makeText(getContext(), "Algo ha salido mal, intente de nuevo", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tweet> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de red", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
