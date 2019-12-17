@@ -73,7 +73,12 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
             holder.txtLikesCount.setTextColor(context.getResources().getColor(R.color.blueColorDark));
             holder.txtLikesCount.setTypeface(null, Typeface.NORMAL);
             holder.imgLike.setOnClickListener(v -> tweetViewModel.likeTweet(holder.mItem.getId()));
+            holder.imgOptions.setOnClickListener(view -> tweetViewModel.openDialogMenu(context, holder.mItem.getId()));
+            holder.imgOptions.setVisibility(View.GONE);
 
+            if (holder.mItem.getUser().getUsername().equals(userName)){
+                holder.imgOptions.setVisibility(View.VISIBLE);
+            }
             for (Like like : holder.mItem.getLikes()) {
                 if (like.getUsername().equals(userName)) {
                     Glide.with(context)
@@ -101,6 +106,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
         private final View mView;
         private final CircleImageView imgAvatar;
         private final ImageView imgLike;
+        private final ImageView imgOptions;
         private final TextView txtUsername;
         private final TextView txtMessage;
         private final TextView txtLikesCount;
@@ -111,10 +117,10 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
             mView = view;
             imgAvatar = view.findViewById(R.id.imgAvatar);
             imgLike = view.findViewById(R.id.imgLike);
+            imgOptions = view.findViewById(R.id.imgOptions);
             txtUsername = view.findViewById(R.id.txtUsername);
             txtMessage = view.findViewById(R.id.txtMessage);
             txtLikesCount = view.findViewById(R.id.txtLikesCount);
         }
-
     }
 }
