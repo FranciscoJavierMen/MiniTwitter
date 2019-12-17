@@ -1,6 +1,7 @@
 package com.example.minitwitter.ui.profile;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.ProfileViewModel;
+import com.example.minitwitter.retrofit.request.RequestUserProfile;
 import com.example.minitwitter.retrofit.response.ResponseUserProfile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,6 +30,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private TextInputLayout edtUserName, edtPass, edtEmail, edtWebsite, edtDescription;
     private MaterialButton btnSave, btnChanfePass;
     private CircleImageView imgUser;
+    private boolean isLoading = true;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -50,6 +53,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getData() {
+        isLoading = false;
         profileViewModel.userProfile.observe(getActivity(), responseUserProfile -> {
             edtUserName.getEditText().setText(responseUserProfile.getUsername());
             edtEmail.getEditText().setText(responseUserProfile.getEmail());
@@ -61,8 +65,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         .into(imgUser);
             } else {
                 Glide.with(getActivity())
-                        .load(R.drawable.ic_account_circle)
+                        .load(R.drawable.profile)
                         .into(imgUser);
+            }
+            if (!isLoading){
+                btnSave.setEnabled(true);
+                Toast.makeText(getActivity(), "Perfil actualizado exitosamente", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -83,17 +91,40 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         btnChanfePass.setOnClickListener(this);
     }
 
+    private void updateProfile(){
+        String username = edtUserName.getEditText().getText().toString();
+        String email = edtEmail.getEditText().getText().toString();
+        String description = edtDescription.getEditText().getText().toString();
+        String website = edtWebsite.getEditText().getText().toString();
+        String password = edtPass.getEditText().getText().toString();
+
+        if (TextUtils.isEmpty(username)){
+            edtUserName.setError("El nombre de usuario es requerido");
+        } else if (TextUtils.isEmpty(email)){
+            edtEmail.setError("El email es requerido");
+        } else if (TextUtils.isEmpty(description)){
+            edtDescription.setError("La descripción es requerida");
+        } else if (TextUtils.isEmpty(password)){
+            edtPass.setError("La contraseña es requerida");
+        } else {
+            RequestUserProfile request = new RequestUserProfile(username, email, description, website, password);
+            profileViewModel.updateProfile(request);
+
+            Toast.makeText(getActivity(), "Guardando los datos del perfil... ", Toast.LENGTH_SHORT).show();
+            btnSave.setEnabled(false);
+        }
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSave:
-                Toast.makeText(getActivity(), "Click on save", Toast.LENGTH_SHORT).show();
+                updateProfile();
                 break;
             case R.id.btnChangePass:
                 Toast.makeText(getActivity(), "Click on change pass", Toast.LENGTH_SHORT).show();

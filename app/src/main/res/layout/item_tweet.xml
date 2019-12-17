@@ -82,7 +82,7 @@
             app:layout_constraintHorizontal_bias="0.976"
             app:layout_constraintStart_toEndOf="@+id/imgAvatar"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_down" />
+            app:srcCompat="@drawable/ic_more" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.minitwitter.common.MyApp;
 import com.example.minitwitter.retrofit.AuthTweeterService;
 import com.example.minitwitter.retrofit.AuthTwitterClient;
+import com.example.minitwitter.retrofit.request.RequestUserProfile;
 import com.example.minitwitter.retrofit.response.ResponseUserProfile;
 
 import retrofit2.Call;
@@ -24,6 +25,7 @@ public class ProfileRepository {
         userProfile = getProfile();
     }
 
+    //Método para obtener los datos del usuario
     public MutableLiveData<ResponseUserProfile> getProfile(){
         if (userProfile == null){
             userProfile = new MutableLiveData<>();
@@ -48,5 +50,26 @@ public class ProfileRepository {
         });
 
         return userProfile;
+    }
+
+    //Método para actualizar los datos del usuario
+    public void updateProfile(RequestUserProfile request){
+        Call<ResponseUserProfile> call = service.updateUserProfile(request);
+        call.enqueue(new Callback<ResponseUserProfile>() {
+            @Override
+            public void onResponse(Call<ResponseUserProfile> call, Response<ResponseUserProfile> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    userProfile.setValue(response.body());
+                } else {
+                    Toast.makeText(MyApp.getContext(), "Algo ha salido mal", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseUserProfile> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
