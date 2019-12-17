@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
+import com.example.minitwitter.ui.profile.ProfileFragment;
 import com.example.minitwitter.ui.tweets.CreateTweetDialogFragment;
 import com.example.minitwitter.ui.tweets.TweetFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -67,6 +68,7 @@ public class DashboardActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_account:
                     toolbar.setText("Cuenta");
+                    fragment = new ProfileFragment();
                     fabCreate.hide();
                     break;
             }
