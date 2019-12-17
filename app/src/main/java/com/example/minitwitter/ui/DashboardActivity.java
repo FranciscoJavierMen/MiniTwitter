@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
@@ -14,11 +16,16 @@ import com.example.minitwitter.ui.tweets.CreateTweetDialogFragment;
 import com.example.minitwitter.ui.tweets.TweetFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements PermissionListener {
 
     private TweetFragment tweetFragment;
     private ExtendedFloatingActionButton fabCreate;
@@ -87,6 +94,9 @@ public class DashboardActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(photoUrl)){
             Glide.with(this)
                     .load(Constantes.API_MINITWITTER_FILES_URL.concat(photoUrl))
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(imgUser);
         }
     }
@@ -99,4 +109,18 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onPermissionGranted(PermissionGrantedResponse response) {
+
+    }
+
+    @Override
+    public void onPermissionDenied(PermissionDeniedResponse response) {
+        Toast.makeText(this, "No se puede acceder a la galería sin los permisos necesarios", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+    }
 }

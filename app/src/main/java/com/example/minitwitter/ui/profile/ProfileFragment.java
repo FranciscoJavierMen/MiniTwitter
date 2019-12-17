@@ -1,5 +1,7 @@
 package com.example.minitwitter.ui.profile;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.ProfileViewModel;
@@ -21,6 +24,10 @@ import com.example.minitwitter.retrofit.request.RequestUserProfile;
 import com.example.minitwitter.retrofit.response.ResponseUserProfile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.single.CompositePermissionListener;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +38,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private MaterialButton btnSave, btnChanfePass;
     private CircleImageView imgUser;
     private boolean isLoading = true;
+    private PermissionListener permissionListener;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -62,6 +70,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             if (!responseUserProfile.getPhotoUrl().isEmpty()){
                 Glide.with(getActivity())
                         .load(Constantes.API_MINITWITTER_FILES_URL + responseUserProfile.getPhotoUrl())
+                        .dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(imgUser);
             } else {
                 Glide.with(getActivity())
@@ -89,6 +100,32 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private void setListeners() {
         btnSave.setOnClickListener(this);
         btnChanfePass.setOnClickListener(this);
+        imgUser.setOnClickListener(this);
+    }
+
+
+    private void checkPermissions(){
+        PermissionListener dialogOnDeniedPermission = DialogOnDeniedPermissionListener.Builder
+                .withContext(getActivity())
+                .withTitle("Permisios para acceso a la galería")
+                .withMessage("Se necesaita dar acceso a la galería para poder seleccionar una fotos")
+                .withButtonText("Aceptar")
+                .withIcon(R.mipmap.ic_launcher)
+                .build();
+
+        permissionListener = new CompositePermissionListener(
+                (PermissionListener) getActivity(),
+                dialogOnDeniedPermission
+        );
+        Dexter.withActivity(getActivity())
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(permissionListener)
+                .check();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void updateProfile(){
@@ -127,7 +164,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 updateProfile();
                 break;
             case R.id.btnChangePass:
-                Toast.makeText(getActivity(), "Click on change pass", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.imgProfileUser:
+                checkPermissions();
                 break;
         }
     }

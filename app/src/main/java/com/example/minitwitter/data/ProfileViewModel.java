@@ -24,4 +24,8 @@ public class ProfileViewModel extends AndroidViewModel {
     public void updateProfile(RequestUserProfile request){
         profileRepository.updateProfile(request);
     }
+
+    public void updatePhoto(String photoPath){
+        profileRepository.uploadPhoto(photoPath);
+    }
 }

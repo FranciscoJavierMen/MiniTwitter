@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
@@ -63,6 +64,9 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
             if (!holder.mItem.getUser().getPhotoUrl().equals("")) {
                 Glide.with(context)
                         .load("https://www.minitwitter.com/apiv1/uploads/photos/" + photo)
+                        .dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(holder.imgAvatar);
             }
 
