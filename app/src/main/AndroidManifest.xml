@@ -18,10 +18,10 @@
             android:label="@string/title_activity_dashboar"
             android:theme="@style/HomeTheme"/>
         <activity
-            android:name=".ui.SignupActivity"
+            android:name=".ui.auth.SignupActivity"
             android:theme="@style/LoginTheme" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.auth.MainActivity"
             android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
