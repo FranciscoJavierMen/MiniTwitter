@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        profileViewModel = ViewModelProviders.of(getActivity()).get(ProfileViewModel.class);
     }
 
     @Override
@@ -84,6 +84,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "Perfil actualizado exitosamente", Toast.LENGTH_SHORT).show();
             }
         });
+
+        profileViewModel.photoProfile.observe(getActivity(), photo -> {
+            if (!photo.isEmpty()){
+                Glide.with(getActivity())
+                        .load(Constantes.API_MINITWITTER_FILES_URL + photo)
+                        .dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imgUser);
+            }
+        });
     }
 
     private void initComponents(View view) {
@@ -102,7 +113,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         btnChanfePass.setOnClickListener(this);
         imgUser.setOnClickListener(this);
     }
-
 
     private void checkPermissions(){
         PermissionListener dialogOnDeniedPermission = DialogOnDeniedPermissionListener.Builder

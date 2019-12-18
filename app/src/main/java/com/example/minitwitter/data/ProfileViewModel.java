@@ -14,18 +14,20 @@ public class ProfileViewModel extends AndroidViewModel {
 
     private ProfileRepository profileRepository;
     public LiveData<ResponseUserProfile> userProfile;
+    public LiveData<String> photoProfile;
 
     public ProfileViewModel(@NotNull Application application) {
         super(application);
         profileRepository = new ProfileRepository();
         userProfile = profileRepository.getProfile();
+        photoProfile = profileRepository.getPhotoProfile();
     }
 
     public void updateProfile(RequestUserProfile request){
         profileRepository.updateProfile(request);
     }
 
-    public void updatePhoto(String photoPath){
+    public void uploadPhoto(String photoPath){
         profileRepository.uploadPhoto(photoPath);
     }
 }

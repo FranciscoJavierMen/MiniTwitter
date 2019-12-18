@@ -95,6 +95,7 @@ public class ProfileRepository {
                 if (response.isSuccessful() && response.body() != null){
                     SharedPreferencesManager.setSomeStringValue(Constantes.PREF_PHOTO_URL, response.body().getFilename());
                     photoProfile.setValue(response.body().getFilename());
+                    SharedPreferencesManager.setSomeStringValue(Constantes.PREF_PHOTO_URL, response.body().getFilename());
                     Toast.makeText(MyApp.getContext(), "Foto de perfil actualizada correctamente", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MyApp.getContext(), "Ha ocurrido un error al intentar subir la foto", Toast.LENGTH_SHORT).show();
@@ -103,8 +104,12 @@ public class ProfileRepository {
 
             @Override
             public void onFailure(Call<ResponseUploadPhoto> call, Throwable t) {
-                Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApp.getContext(), "Error en la conexión " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public MutableLiveData<String> getPhotoProfile(){
+        return photoProfile;
     }
 }
